@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  web:
+    container_name: gmu-ait580-final-team3
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+    # build: .
+    image: public.ecr.aws/r6g9k3m8/gmu:latest
+    ports:
+      - "8501:8501"
