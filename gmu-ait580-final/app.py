@@ -10,7 +10,6 @@ import exploration, correlation, scatter, hypothesis, regression
 # %%
 @st.cache(suppress_st_warning=True)
 def get_dfs():
-    st.write("Cache miss: 'get_dfs()' ran")
     return get_data()
 
 
