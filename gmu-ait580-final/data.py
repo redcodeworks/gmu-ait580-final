@@ -1,40 +1,28 @@
 # %%
-# import boto3
+import boto3
 import io, os, json
 import pandas as pd
 import numpy as np
 from pandas.core import base
 
 
-# For reading from a secure S3 bucket with AWS credentials
-# def read_csv_to_df_from_s3(object_path):
+def read_csv_to_df_from_s3(object_path):
 
-#     file_stream = io.BytesIO()
+    file_stream = io.BytesIO()
 
-#     s3 = boto3.resource("s3", region_name="us-east-1")
-#     bucket = s3.Bucket("gmu-ait580-umriley")
-#     object = bucket.Object(f"{object_path}")
+    s3 = boto3.resource("s3", region_name="us-east-1")
+    bucket = s3.Bucket("redcodeworks-data")
+    object = bucket.Object(f"gmu-ait850/{object_path}")
 
-#     object.download_fileobj(file_stream)
+    object.download_fileobj(file_stream)
 
-#     file_stream.seek(0)
+    file_stream.seek(0)
 
-#     df = pd.read_csv(file_stream).set_index("id")
-
-#     return df
-
-
-# Reading from a hardcoded URL for grading purposes
-def read_csv_to_df_from_url(file_path):
-    # Ideally, this would be defined as a Docker environment variable, but this is hardcoded for grading.
-    os.environ['AWS_BUCKET_URL'] = "https://gmu-ait580-umriley.s3.amazonaws.com"
-
-    df = pd.read_csv("{}/{}".format(os.environ['AWS_BUCKET_URL'], file_path))
+    df = pd.read_csv(file_stream).set_index("id")
 
     return df
 
 
-# Reading from a local file for debugging and development
 def read_csv_to_df_from_local(file_path):
 
     with open(file_path, "rb") as f:
@@ -111,8 +99,7 @@ def _order_cols(df, col_order):
 def _get_df(path, data_cleaning_list):
     print(f"\nGenerating dataframe from {path}")
     # read_csv_to_df = read_csv_to_df_from_local
-    # read_csv_to_df = read_csv_to_df_from_s3
-    read_csv_to_df = read_csv_to_df_from_url
+    read_csv_to_df = read_csv_to_df_from_s3
 
     df = read_csv_to_df(path)
 
